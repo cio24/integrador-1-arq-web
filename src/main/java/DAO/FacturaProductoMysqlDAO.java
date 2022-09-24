@@ -14,7 +14,7 @@ public class FacturaProductoMysqlDAO implements DAO<FacturaProductoDTO> {
                 + "FOREIGN KEY (idfactura) REFERENCES facturas(idfactura), "
                 + "FOREIGN KEY (idproducto) REFERENCES productos(idproducto))";
 
-        MysqlManager.createTable(createTableQuery);
+        MysqlManager.getInstance().voidQuery(createTableQuery);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class ProductoMysqlDAO implements ProductoDAO{
                 + "nombre VARCHAR(45),"
                 + "valor FLOAT,"
                 + "PRIMARY KEY(idproducto))";
-        MysqlManager.createTable(createTableQuery);
+        MysqlManager.getInstance().voidQuery(createTableQuery);
     }
 
     @Override

@@ -11,7 +11,7 @@ public class FacturaMysqlDAO implements DAO<FacturaDTO> {
                 + "idcliente INT, "
                 + "PRIMARY KEY(idfactura), "
                 + "FOREIGN KEY (idcliente) REFERENCES clientes(idcliente))";
-        MysqlManager.createTable(createTableQuery);
+        MysqlManager.getInstance().voidQuery(createTableQuery);
     }
 
     @Override

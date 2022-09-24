@@ -26,10 +26,11 @@ public class Main {
         //2) Considere los CSV dados y escriba un programa JDBC que cargue los datos a la base de
         //datos. Considere utilizar la biblioteca Apache Commons CSV, disponible en Maven central,
         //para leer los archivos.
-        MysqlManager.insertDataToTable("resources/clientes.csv","clientes");
-        MysqlManager.insertDataToTable("resources/productos.csv","productos");
-        MysqlManager.insertDataToTable("resources/facturas.csv","facturas");
-        MysqlManager.insertDataToTable("resources/facturas-productos.csv","facturasproductos");
+        MysqlManager mysqlManager = MysqlManager.getInstance();
+        mysqlManager.insertDataToTable("resources/clientes.csv","clientes");
+        mysqlManager.insertDataToTable("resources/productos.csv","productos");
+        mysqlManager.insertDataToTable("resources/facturas.csv","facturas");
+        mysqlManager.insertDataToTable("resources/facturas-productos.csv","facturasproductos");
 
         //3) Escriba un programa JDBC que retorne el producto que más recaudó. Se define
         //“recaudación” como cantidad de productos vendidos multiplicado por su valor.

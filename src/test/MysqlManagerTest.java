@@ -15,7 +15,7 @@ public class MysqlManagerTest {
                 + "valor FLOAT,"
                 + "PRIMARY KEY(idproducto))";
 
-        MysqlManager.createTable(createTableQuery);
+        MysqlManager.getInstance().voidQuery(createTableQuery);
         assertEquals(true, true);
     }
 
@@ -27,7 +27,7 @@ public class MysqlManagerTest {
                 + "email VARCHAR(150),"
                 + "PRIMARY KEY(idcliente))";
 
-        MysqlManager.createTable(createTableQuery);
+        MysqlManager.getInstance().voidQuery(createTableQuery);
 
         assertEquals(true, true);
     }
@@ -40,7 +40,7 @@ public class MysqlManagerTest {
                 + "PRIMARY KEY(idfactura), "
                 + "FOREIGN KEY (idcliente) REFERENCES clientes(idcliente))";
 
-        MysqlManager.createTable(createTableQuery);
+        MysqlManager.getInstance().voidQuery(createTableQuery);
         assertEquals(true, true);
     }
 
@@ -54,7 +54,7 @@ public class MysqlManagerTest {
                 + "FOREIGN KEY (idfactura) REFERENCES facturas(idfactura), "
                 + "FOREIGN KEY (idproducto) REFERENCES productos(idproducto))";
 
-        MysqlManager.createTable(createTableQuery);
+        MysqlManager.getInstance().voidQuery(createTableQuery);
         assertEquals(true, true);
     }
 }
