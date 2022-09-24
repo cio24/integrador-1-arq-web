@@ -1,5 +1,7 @@
 package main.java.DAO;
 
-public interface ProductoDAO extends DAO {
-    void getProductoQueMasRecaudo();
+import main.java.DTO.ProductoDTO;
+
+public interface ProductoDAO extends DAO<ProductoDTO> {
+    ProductoDTO getProductoQueMasRecaudo();
 }

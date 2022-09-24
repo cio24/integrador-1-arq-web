@@ -30,4 +30,7 @@ public class MysqlManager {
             e.printStackTrace();
         }
     }
+
+    public static void insertDataToTable(String path, String tableName){
+    }
 }

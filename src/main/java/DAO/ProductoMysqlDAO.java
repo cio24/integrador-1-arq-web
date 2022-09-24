@@ -1,11 +1,7 @@
 package main.java.DAO;
 
+import main.java.DTO.ProductoDTO;
 import main.java.MysqlManager;
-
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class ProductoMysqlDAO implements ProductoDAO{
 
@@ -20,6 +16,12 @@ public class ProductoMysqlDAO implements ProductoDAO{
     }
 
     @Override
-    public void getProductoQueMasRecaudo() {
+    public void insert(ProductoDTO productoDTO) {
+
+    }
+
+    @Override
+    public ProductoDTO getProductoQueMasRecaudo() {
+        return null;
     }
 }
