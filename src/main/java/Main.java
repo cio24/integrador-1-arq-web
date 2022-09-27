@@ -18,8 +18,8 @@ public class Main {
         DAO facturaDAO = factory.getFacturaProductoDAO();
         DAO facturaProductoDAO = factory.getFacturaProductoDAO();
 
-        clienteDAO.createTable();
-        productoDAO.createTable();
+        //clienteDAO.createTable();
+       // productoDAO.createTable();
         facturaDAO.createTable();
         facturaProductoDAO.createTable();
 
@@ -31,16 +31,16 @@ public class Main {
         MysqlManager.insertDataToTable("resources/facturas.csv","facturas");
         MysqlManager.insertDataToTable("resources/facturas-productos.csv","facturasproductos");
 
-        //3) Escriba un programa JDBC que retorne el producto que más recaudó. Se define
-        //“recaudación” como cantidad de productos vendidos multiplicado por su valor.
+        //3) Escriba un programa JDBC que retorne el producto que mÃ¡s recaudÃ³. Se define
+        //â€œrecaudaciÃ³nâ€� como cantidad de productos vendidos multiplicado por su valor.
         ProductoDTO producto = productoDAO.getProductoQueMasRecaudo();
-        System.out.println("el producto que más recaudo es: " + producto.toString());
+        System.out.println("el producto que mÃ¡s recaudo es: " + producto.toString());
 
 
-        //4) Escriba un programa JDBC que imprima una lista de clientes, ordenada por a cuál se le
-        //facturó más.
+        //4) Escriba un programa JDBC que imprima una lista de clientes, ordenada por a cuÃ¡l se le
+        //facturÃ³ mÃ¡s.
         List<ClienteDTO> clientes = clienteDAO.getClientesFacturaronMas();
-        System.out.println("clientes ordenados por lo que más facturaron: ");
+        System.out.println("clientes ordenados por lo que mÃ¡s facturaron: ");
         for(ClienteDTO c: clientes)
             System.out.println(c.toString());
     }
