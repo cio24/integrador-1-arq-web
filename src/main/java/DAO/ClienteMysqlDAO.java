@@ -12,13 +12,14 @@ import java.util.List;
 public class ClienteMysqlDAO implements ClienteDAO {
     @Override
     public List<ClienteDTO> getClientesFacturaronMas() {
-
-        String query = "select f.idcliente, sum(p.valor*fp.cantidad) as facturacion \n" +
-                "  from producto p \n" +
-                "  join facturaproducto fp on p.idproducto = fp.idproducto\n" +
-                "  join factura f on fp.idfactura = f.idfactura\n" +
-                "  group by f.idcliente\n" +
-                "  order by facturacion desc;";
+    	
+    	String query = "SELECT f.idcliente, c.nombre, c.email, SUM(p.valor*fp.cantidad) AS facturacion\r\n"
+    			+ "FROM productos p\r\n"
+    			+ "JOIN facturasproductos fp ON p.idproducto = fp.idproducto\r\n"
+    			+ "JOIN facturas f ON fp.idfactura = f.idfactura\r\n"
+    			+ "JOIN clientes c ON f.idcliente = c.idcliente\r\n"
+    			+ "GROUP BY f.idcliente\r\n"
+    			+ "ORDER BY facturacion DESC";
 
         ResultSet rs = MysqlManager.getInstance().getDataQuery(query);
         List<ClienteDTO> results = new ArrayList<>();
@@ -32,6 +33,8 @@ public class ClienteMysqlDAO implements ClienteDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
+        MysqlManager.getInstance().closeConnection();
         return results;
     }
 
