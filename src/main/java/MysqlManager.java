@@ -32,7 +32,7 @@ public class MysqlManager {
             System.exit(1);
         }
         try {
-            conn = DriverManager.getConnection(uri, "root", "rootroot");
+            conn = DriverManager.getConnection(uri, "root", "example");
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +51,7 @@ public class MysqlManager {
         this.openConnection();
 
         try {
-            Connection conn = DriverManager.getConnection(uri, "root", "rootroot");
+            Connection conn = DriverManager.getConnection(uri, "root", "example");
             conn.setAutoCommit(false);
             conn.prepareStatement(query).execute();
             conn.commit();
@@ -86,7 +86,7 @@ public class MysqlManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        closeConnection();
+        
         return rs;
     }
 }
