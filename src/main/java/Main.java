@@ -4,18 +4,18 @@ import main.java.DAO.*;
 import main.java.DTO.ClienteDTO;
 import main.java.DTO.ProductoDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
 
     public static void main(String[] args) {
+
         //1) Cree un programa utilizando JDBC que cree el esquema de la base de datos
         MysqlDAOFactory factory = new MysqlDAOFactory();
         ClienteDAO clienteDAO = factory.getClienteDAO();
         ProductoDAO productoDAO = factory.getProductoDAO();
-        DAO facturaDAO = factory.getFacturaProductoDAO();
+        DAO facturaDAO = factory.getFacturaDAO();
         DAO facturaProductoDAO = factory.getFacturaProductoDAO();
 
         clienteDAO.createTable();
@@ -27,10 +27,11 @@ public class Main {
         //datos. Considere utilizar la biblioteca Apache Commons CSV, disponible en Maven central,
         //para leer los archivos.
         MysqlManager mysqlManager = MysqlManager.getInstance();
-        mysqlManager.insertDataToTable("resources/clientes.csv","clientes");
-        mysqlManager.insertDataToTable("resources/productos.csv","productos");
-        mysqlManager.insertDataToTable("resources/facturas.csv","facturas");
-        mysqlManager.insertDataToTable("resources/facturas-productos.csv","facturasproductos");
+        mysqlManager.insertDataToTable("resources/clientes.csv", new ClienteMysqlDAO());
+        mysqlManager.insertDataToTable("resources/productos.csv", new ProductoMysqlDAO());
+        mysqlManager.insertDataToTable("resources/facturas.csv", new FacturaMysqlDAO());
+        mysqlManager.insertDataToTable("resources/facturas-productos.csv", new FacturaProductoMysqlDAO());
+
 
         //3) Escriba un programa JDBC que retorne el producto que más recaudó. Se define
         //“recaudación” como cantidad de productos vendidos multiplicado por su valor.

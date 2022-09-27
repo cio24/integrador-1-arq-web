@@ -1,7 +1,9 @@
 package main.java.DAO;
 
+import org.apache.commons.csv.CSVRecord;
+
 public interface DAO<T>{
     void createTable();
 
-    void insert(T t);
+    void insert(CSVRecord row);
 }

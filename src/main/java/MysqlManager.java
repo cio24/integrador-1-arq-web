@@ -1,5 +1,12 @@
 package main.java;
 
+import main.java.DAO.DAO;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
@@ -25,7 +32,7 @@ public class MysqlManager {
             System.exit(1);
         }
         try {
-            conn = DriverManager.getConnection(uri, "root", "example");
+            conn = DriverManager.getConnection(uri, "root", "rootroot");
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,7 +51,7 @@ public class MysqlManager {
         this.openConnection();
 
         try {
-            Connection conn = DriverManager.getConnection(uri, "root", "example");
+            Connection conn = DriverManager.getConnection(uri, "root", "rootroot");
             conn.setAutoCommit(false);
             conn.prepareStatement(query).execute();
             conn.commit();
@@ -54,7 +61,19 @@ public class MysqlManager {
         }
     }
 
-    public void insertDataToTable(String path, String tableName){
+    public void insertDataToTable(String path, DAO table){
+            CSVParser parser = null;
+            try {
+                parser = CSVFormat.DEFAULT.withHeader().parse(new
+                        FileReader(path));
+            } catch (
+                    IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        for(CSVRecord row: parser) {
+            table.insert(row);
+        }
     }
 
     public ResultSet getDataQuery(String query){

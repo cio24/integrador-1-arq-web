@@ -2,6 +2,7 @@ package main.java.DAO;
 
 import main.java.DTO.ClienteDTO;
 import main.java.MysqlManager;
+import org.apache.commons.csv.CSVRecord;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,7 +47,17 @@ public class ClienteMysqlDAO implements ClienteDAO {
     }
 
     @Override
-    public void insert(ClienteDTO clienteDTO) {
+    public void insert(CSVRecord row) {
 
+        String name = row.get("nombre");
+        String email = row.get("email");
+        Integer id = Integer.valueOf(row.get("idCliente"));
+
+        String createTableQuery = "INSERT INTO clientes (idcliente, nombre, email) VALUES ("
+                + id + ", '"
+                + name + "', '"
+                + email + "')";
+
+        MysqlManager.getInstance().voidQuery(createTableQuery);
     }
 }
