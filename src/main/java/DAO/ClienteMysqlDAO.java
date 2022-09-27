@@ -2,13 +2,37 @@ package main.java.DAO;
 
 import main.java.DTO.ClienteDTO;
 import main.java.MysqlManager;
+import org.apache.commons.csv.CSVRecord;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteMysqlDAO implements ClienteDAO {
     @Override
     public List<ClienteDTO> getClientesFacturaronMas() {
-        return null;
+
+        String query = "select f.idcliente, sum(p.valor*fp.cantidad) as facturacion \n" +
+                "  from producto p \n" +
+                "  join facturaproducto fp on p.idproducto = fp.idproducto\n" +
+                "  join factura f on fp.idfactura = f.idfactura\n" +
+                "  group by f.idcliente\n" +
+                "  order by facturacion desc;";
+
+        ResultSet rs = MysqlManager.getInstance().getDataQuery(query);
+        List<ClienteDTO> results = new ArrayList<>();
+        try{
+            while (rs.next()) {
+                int idCliente = rs.getInt(1);
+                String nombre = rs.getString(2);
+                String email = rs.getString(3);
+                results.add(new ClienteDTO(idCliente,nombre,email));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
     }
 
     @Override
@@ -19,11 +43,21 @@ public class ClienteMysqlDAO implements ClienteDAO {
                 + "email VARCHAR(150),"
                 + "PRIMARY KEY(idcliente))";
 
-        MysqlManager.createTable(createTableQuery);
+        MysqlManager.getInstance().voidQuery(createTableQuery);
     }
 
     @Override
-    public void insert(ClienteDTO clienteDTO) {
+    public void insert(CSVRecord row) {
 
+        String name = row.get("nombre");
+        String email = row.get("email");
+        Integer id = Integer.valueOf(row.get("idCliente"));
+
+        String createTableQuery = "INSERT INTO clientes (idcliente, nombre, email) VALUES ("
+                + id + ", '"
+                + name + "', '"
+                + email + "')";
+
+        MysqlManager.getInstance().voidQuery(createTableQuery);
     }
 }

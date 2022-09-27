@@ -1,15 +1,29 @@
 package main.java;
 
+import main.java.DAO.DAO;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class MysqlManager {
 
-    public static void createTable(String createTableQuery){
-        String driver = "com.mysql.cj.jdbc.Driver";
+    private static MysqlManager instance = new MysqlManager();
+    private static final String driver = "com.mysql.cj.jdbc.Driver";
+    private static final String uri = "jdbc:mysql://localhost:3306/integrador1";
+    private static Connection conn;
 
+    private MysqlManager(){};
+
+    public static MysqlManager getInstance(){
+        return instance;
+    }
+
+    public void openConnection(){
         try {
             Class.forName(driver).getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -17,20 +31,62 @@ public class MysqlManager {
             e.printStackTrace();
             System.exit(1);
         }
-
-        String uri = "jdbc:mysql://localhost:3306/integrador1";
         try {
-            Connection conn = DriverManager.getConnection(uri, "root", "example");
+            conn = DriverManager.getConnection(uri, "root", "rootroot");
             conn.setAutoCommit(false);
-            conn.prepareStatement(createTableQuery).execute();
-            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void closeConnection(){
+        try {
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void insertDataToTable(String path, String tableName){
+    public void voidQuery(String query){
+        this.openConnection();
+
+        try {
+            Connection conn = DriverManager.getConnection(uri, "root", "rootroot");
+            conn.setAutoCommit(false);
+            conn.prepareStatement(query).execute();
+            conn.commit();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertDataToTable(String path, DAO table){
+            CSVParser parser = null;
+            try {
+                parser = CSVFormat.DEFAULT.withHeader().parse(new
+                        FileReader(path));
+            } catch (
+                    IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        for(CSVRecord row: parser) {
+            table.insert(row);
+        }
+    }
+
+    public ResultSet getDataQuery(String query){
+        ResultSet rs = null;
+        this.openConnection();
+        try{
+
+            PreparedStatement ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeConnection();
+        return rs;
     }
 }
